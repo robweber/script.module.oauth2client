@@ -620,6 +620,9 @@ class OAuth2Credentials(Credentials):
       try:
         data['token_expiry'] = datetime.datetime.strptime(
             data['token_expiry'], EXPIRY_FORMAT)
+      except TypeError:
+        data['token_expiry'] = datetime.datetime(*(time.strptime(
+            data['token_expiry'], EXPIRY_FORMAT)[0:6]))
       except ValueError:
         data['token_expiry'] = None
     retval = cls(
